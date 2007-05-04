@@ -334,6 +334,9 @@ void Viewport::deactivate(void)
 
 void Viewport::render(RenderActionBase *action)
 {
+    // Make sure everthing is up-to-date
+    Thread::getCurrentChangeList()->commitChanges();
+
     _pStageValidator->incEventCounter();
  
     if(this->getTravMask() == 0x0000)
