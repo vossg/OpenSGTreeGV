@@ -40,6 +40,9 @@
 /* PROLOG END TAG zYx                                              */
 #include <stdio.h>
 
+#include "OSGTestSPUCommon.h"
+#include "OSGLocalTestSPUCommon.h"
+
 int main(unsigned long long id)
 {
     printf("Hello Cell (0x%llx)\n", id);

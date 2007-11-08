@@ -45,6 +45,9 @@
 #include <libspe2.h>
 #include <pthread.h>
 
+#include "OSGTestSPUCommon.h"
+#include "OSGLocalTestSPUCommon.h"
+
 extern spe_program_handle_t simple_spu;
 
 #define MAX_SPU_THREADS 	16

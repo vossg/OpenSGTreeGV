@@ -1,0 +1,4 @@
+#ifndef _OSGLOCALTESTSPUCOMMON_H_
+#define _OSGLOCALTESTSPUCOMMON_H_
+
+#endif
