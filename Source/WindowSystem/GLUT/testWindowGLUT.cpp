@@ -415,11 +415,11 @@ int init(int argc, char **argv)
     {
         fprintf(stderr, "no geo\n");
     }
-#endif
 
     OSG::GraphOpRefPtr op = OSG::GraphOpFactory::the()->create("Stripe");
 
     op->traverse(file);
+#endif
 //   createOptimizedPrimitives(pGeo);
 //    createSharedIndex(pGeo);
     
