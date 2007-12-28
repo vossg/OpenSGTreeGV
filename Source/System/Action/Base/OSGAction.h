@@ -320,6 +320,11 @@ class OSG_SYSTEM_DLLMAPPING Action : public ActionBase
 
     friend class MultiCore;
 
+    friend ActionBase::ResultE MultiCoreRenderEnter(const NodeCorePtr &pCore,
+                                                          Action      *action);
+    friend ActionBase::ResultE MultiCoreRenderLeave(const NodeCorePtr &pCore,
+                                                          Action      *action);
+
     //-----------------------------------------------------------------------
     //   class variables                                                     
     //-----------------------------------------------------------------------
