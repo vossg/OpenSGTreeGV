@@ -49,6 +49,9 @@
 #include <cstdio>
 
 #include "OSGConfig.h"
+
+#ifndef OSG_EMBEDDED
+
 #include "OSGLog.h"
 #include "OSGImage.h"
 #include "OSGBaseFunctions.h"
@@ -1636,3 +1639,4 @@ bool convertCrossToCubeMap(Image const *pIn,
 }
 
 OSG_END_NAMESPACE
+#endif

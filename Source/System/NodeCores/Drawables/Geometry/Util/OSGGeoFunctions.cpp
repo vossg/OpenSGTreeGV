@@ -44,6 +44,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGeoFunctions.h"
 #include "OSGGeoProperties.h"
 #include "OSGGeoPropertyFactory.h"
@@ -4529,3 +4531,4 @@ void setVBOUsageOnPropertyProtos(bool bVal)
 
 OSG_END_NAMESPACE
 
+#endif

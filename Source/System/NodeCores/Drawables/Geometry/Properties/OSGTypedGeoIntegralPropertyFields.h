@@ -96,6 +96,7 @@ OSG_FIELDCONTAINER_FIELDS_INST(GeoUInt8Property *, GeoUInt8PropertyPtr);
 
 
 
+#if defined(GL_UNSIGNED_INT)
 
 #if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
 //! GeoIntegralPropertyPtr
@@ -141,6 +142,7 @@ OSG_FIELDCONTAINER_FIELDS_INST(GeoUInt32Property *, GeoUInt32PropertyPtr);
 
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
+#endif
 
 OSG_END_NAMESPACE
 

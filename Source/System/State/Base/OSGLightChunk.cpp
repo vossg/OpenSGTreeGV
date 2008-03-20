@@ -170,22 +170,31 @@ void LightChunk::activate(DrawEnv *pEnv, UInt32 index)
                     GL_POSITION,
                    _sfPosition.getValue().getValues());
 
+#if defined(GL_CONSTANT_ATTENUATION)
     GLP::glLightf ( GL_LIGHT0 + index, 
                     GL_CONSTANT_ATTENUATION,
                    _sfConstantAttenuation.getValue());
+#endif
 
+#if defined(GL_LINEAR_ATTENUATION)
     GLP::glLightf ( GL_LIGHT0 + index, 
                     GL_LINEAR_ATTENUATION,
                    _sfLinearAttenuation.getValue());
+#endif
 
+#if defined(GL_QUADRATIC_ATTENUATION)
     GLP::glLightf ( GL_LIGHT0 + index, 
                     GL_QUADRATIC_ATTENUATION,
                    _sfQuadraticAttenuation.getValue());
+#endif
 
+#if defined(GL_SPOT_CUTOFF)
     GLP::glLightf( GL_LIGHT0 + index, 
                    GL_SPOT_CUTOFF, 
                   _sfCutoff.getValue());
+#endif
 
+#if defined(GL_SPOT_DIRECTION) && defined(GL_SPOT_EXPONENT)
     if(_sfCutoff.getValue() < 180.f)
     {
         GLP::glLightfv( GL_LIGHT0 + index, 
@@ -196,6 +205,7 @@ void LightChunk::activate(DrawEnv *pEnv, UInt32 index)
                        GL_SPOT_EXPONENT, 
                       _sfExponent.getValue());
     }
+#endif
 
     glEnable(GL_LIGHT0 + index);
 
@@ -256,22 +266,31 @@ void LightChunk::changeFrom(DrawEnv    *pEnv,
                     GL_POSITION,
                    _sfPosition.getValue().getValues());
 
+#if defined(GL_CONSTANT_ATTENUATION)
     GLP::glLightf ( GL_LIGHT0 + index, 
                     GL_CONSTANT_ATTENUATION,
                    _sfConstantAttenuation.getValue());
+#endif
 
+#if defined(GL_LINEAR_ATTENUATION)
     GLP::glLightf ( GL_LIGHT0 + index, 
                     GL_LINEAR_ATTENUATION,
                    _sfLinearAttenuation.getValue());
+#endif
 
+#if defined(GL_QUADRATIC_ATTENUATION)
     GLP::glLightf ( GL_LIGHT0 + index, 
                     GL_QUADRATIC_ATTENUATION,
                    _sfQuadraticAttenuation.getValue());
+#endif
 
+#if defined(GL_SPOT_CUTOFF)
     GLP::glLightf( GL_LIGHT0 + index, 
                    GL_SPOT_CUTOFF,
                   _sfCutoff.getValue());
+#endif
 
+#if defined(GL_SPOT_DIRECTION) && defined(GL_SPOT_EXPONENT)
     if(_sfCutoff.getValue() < 180.f)
     {
         GLP::glLightfv( GL_LIGHT0 + index, 
@@ -282,6 +301,7 @@ void LightChunk::changeFrom(DrawEnv    *pEnv,
                        GL_SPOT_EXPONENT, 
                       _sfExponent.getValue());
     }
+#endif
 
     glPopMatrix();
 

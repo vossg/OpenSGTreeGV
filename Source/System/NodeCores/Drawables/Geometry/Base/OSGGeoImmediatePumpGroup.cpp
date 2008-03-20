@@ -48,6 +48,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGL.h"
 #include "OSGGLEXT.h"
 
@@ -1227,3 +1229,5 @@ bool GeoImmediatePumpGroup::glextInitFunction(void)
 
     return true;
 }
+
+#endif

@@ -186,7 +186,7 @@ class TypedGeoIntegralProperty : public GeoIntegralProperty
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/    
+    /*=========================  PROTECTED  ===============================*/   
   protected:
 
     friend class FieldContainer;
@@ -354,6 +354,7 @@ OSG_GEN_CONTAINERPTR(GeoUInt8Property);
 #endif
 
 
+#if defined(GL_UNSIGNED_SHORT)
 /*! \brief The descriptor trait for OSG::GeoPositionsUInt16.
     \ingroup GrpWINDOWGLUTDrawablesGeometryProperties
     \hideinhierarchy
@@ -377,9 +378,9 @@ typedef TypedGeoIntegralProperty<GeoUInt16PropertyDesc> GeoUInt16Property;
 OSG_GEN_CONTAINERPTR(GeoUInt16Property);
 
 #endif
+#endif
 
-
-#ifndef OSG_EMBEDDED
+#if defined(GL_UNSIGNED_INT)
 /*! \brief The descriptor trait for OSG::GeoPositionsUInt32.
     \ingroup GrpWINDOWGLUTDrawablesGeometryProperties
     \hideinhierarchy
@@ -425,14 +426,16 @@ typedef GeoUInt8PropertyRecPtr    GeoPTypesUI8Ptr;
 //typedef GeoUInt8PropertyPtr    GeoPLengthsUI8Ptr;
 //typedef GeoUInt8PropertyPtr    GeoIndicesUI8Ptr;
 
+#if defined(GL_UNSIGNED_SHORT)
 typedef GeoUInt16Property         GeoPTypesUI16;
 typedef GeoUInt16Property         GeoPLengthsUI16;
 typedef GeoUInt16Property         GeoIndicesUI16;
 //typedef GeoUInt16PropertyPtr   GeoPTypesUI16Ptr;
 //typedef GeoUInt16PropertyPtr   GeoPLengthsUI16Ptr;
 //typedef GeoUInt16PropertyPtr   GeoIndicesUI16Ptr;
+#endif
 
-#ifndef OSG_EMBEDDED
+#if defined(GL_UNSIGNED_INT)
 typedef GeoUInt32Property         GeoPTypesUI32;
 typedef GeoUInt32Property         GeoPLengthsUI32;
 typedef GeoUInt32Property         GeoIndicesUI32;

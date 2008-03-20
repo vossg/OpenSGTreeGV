@@ -132,7 +132,11 @@ void DepthChunk::activate(DrawEnv *, UInt32)
     
     if(getNear() >= 0 && getFar() >= 0)
     {   
+#ifdef OSG_EMBEDDED
+        glDepthRangef(getNear(), getFar());
+#else
         glDepthRange(getNear(), getFar());
+#endif
     }
     
     if(getEnable())
@@ -165,7 +169,11 @@ void DepthChunk::deactivate(DrawEnv *, UInt32)
     
     if(getNear() >= 0 && getFar() >= 0)
     {   
+#ifdef OSG_EMBEDDED
+        glDepthRangef(0, 1);
+#else
         glDepthRange(0, 1);
+#endif
     }
     
     if(!getEnable())

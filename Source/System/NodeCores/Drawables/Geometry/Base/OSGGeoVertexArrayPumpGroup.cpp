@@ -48,6 +48,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGL.h"
 #include "OSGGLEXT.h"
 
@@ -1345,3 +1347,6 @@ bool GeoVertexArrayPumpGroup::glextInitFunction(void)
 
     return true;
 }
+
+#endif
+

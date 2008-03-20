@@ -49,14 +49,20 @@ OSG_BEGIN_NAMESPACE
 
 struct StageIdPoolTag;
 
+#if !defined(OSG_EMBEDDED)
+typedef SingleLockPolicy SIPLockPolicy;
+#else
+typedef NoLockPolicy SIPLockPolicy;
+#endif
+
 typedef SimpleReusePool<Int32, 
                         StageIdPoolTag, 
-                        SingleLockPolicy> StageIdPoolBase;
+                        SIPLockPolicy > StageIdPoolBase;
 
 template<> inline
 void SimpleReusePool<Int32, 
                      StageIdPoolTag, 
-                     SingleLockPolicy  >::initializeValue(void)
+                     SIPLockPolicy >::initializeValue(void)
 {
     _currentValue = 0;
 }

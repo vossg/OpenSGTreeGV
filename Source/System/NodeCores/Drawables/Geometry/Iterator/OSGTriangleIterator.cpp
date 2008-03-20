@@ -44,6 +44,9 @@
 #include <cstdio>
 
 #include "OSGConfig.h"
+
+#ifndef OSG_EMBEDDED
+
 #include "OSGGeometry.h"
 #include "OSGPrimitiveIterator.h"
 #include "OSGTriangleIterator.h"
@@ -358,3 +361,5 @@ bool TriangleIterator::operator !=(const TriangleIterator &other) const
 {
     return !(*this == other);
 }
+
+#endif

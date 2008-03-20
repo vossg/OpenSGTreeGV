@@ -45,7 +45,12 @@
 #include "OSGConfig.h"
 
 #ifdef OSG_GLES
+
+#if defined(OSG_INTERNAL_GL_ES)
+#include "OSGGLES.h"
+#else
 #include <GLES/gl.h>
+#endif
 
 #ifndef GL_NONE
 #define GL_NONE GL_FALSE

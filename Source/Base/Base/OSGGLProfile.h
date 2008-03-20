@@ -62,6 +62,8 @@ OSG_BEGIN_NAMESPACE
 
 //#define OSG_FLOAT_PROFILE
 
+#ifndef OSG_INTERNAL_GL_ES
+
 #ifdef OSG_FLOAT_PROFILE
 
 namespace GLP
@@ -251,6 +253,75 @@ namespace GLP
                      reinterpret_cast<const GLfixed *>(params));
 	}
 };
+#endif
+
+#else
+
+namespace GLP
+{
+    static inline
+    void glMaterialf (GLenum face, GLenum pname, GLfloat param)
+    {
+        OSG::glMaterialf(face, pname, param);
+    }
+
+    static inline
+    void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params)
+    {
+        OSG::glMaterialfv(face, pname, params);
+    }
+
+    static inline
+    void glColor4fv(const GLfloat *v)
+    {
+        OSG::glColor4fv(v);
+    }
+
+#if 0
+    static inline
+    void glLightf (GLenum light, GLenum pname, GLfloat param)
+    {
+        OSG::glLightf(light, pname, param);
+    }
+#endif
+
+    static inline
+    void glLightfv (GLenum light, GLenum pname, const GLfloat *params)
+    {
+        OSG::glLightfv(light, pname, params);
+    }
+
+    static inline
+    void glClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a)
+    {
+        OSG::glClearColor(r, g, b, a);
+    }
+
+    static inline
+    void glLoadMatrixf (const GLfloat *m)
+    {
+        OSG::glLoadMatrixf(m);
+    }
+
+    static inline
+    void glClearDepth(GLclampf d)
+    {
+        OSG::glClearDepthf(d);
+    }
+
+	static inline
+	void glTexEnvi(GLenum target, GLenum pname, GLint param)
+	{
+		OSG::glTexEnvi(target, pname, param);
+	}
+
+	static inline
+	void glTexEnvfv(GLenum target, GLenum pname, const GLfloat *params)
+	{
+		OSG::glTexEnvfv(target, pname, params);
+	}
+}
+
 #endif
 
 #else

@@ -45,6 +45,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGeometry.h"
 #include "OSGPrimitiveIterator.h"
 #include "OSGFaceIterator.h"
@@ -393,3 +395,5 @@ bool FaceIterator::operator !=(const FaceIterator &other) const
 {
     return !(*this == other);
 }
+
+#endif

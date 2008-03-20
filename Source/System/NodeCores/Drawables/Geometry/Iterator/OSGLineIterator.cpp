@@ -44,6 +44,9 @@
 #include <cstdio>
 
 #include "OSGConfig.h"
+
+#ifndef OSG_EMBEDDED
+
 #include "OSGGeometry.h"
 #include "OSGPrimitiveIterator.h"
 #include "OSGLineIterator.h"
@@ -330,3 +333,5 @@ bool LineIterator::operator !=(const LineIterator &other) const
 {
     return !(*this == other);
 }
+
+#endif

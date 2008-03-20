@@ -54,12 +54,16 @@ DataType FieldTraits<GeoUInt8Property  *>::_type(
     "GeoUInt8PropertyPtr",
     "GeoIntegralPropertyPtr");
 
+#if defined(GL_UNSIGNED_INT)
 DataType FieldTraits<GeoUInt32Property *>::_type(
     "GeoUInt32PropertyPtr",
     "GeoIntegralPropertyPtr");
+#endif
 
 OSG_FIELDTRAITS_GETTYPE(GeoUInt8Property  *)
+#if defined(GL_UNSIGNED_INT)
 OSG_FIELDTRAITS_GETTYPE(GeoUInt32Property *)
+#endif
 
 #endif //!defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
@@ -70,6 +74,8 @@ OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            GeoUInt8Property *, 
                            0);
 
+#if defined(GL_UNSIGNED_INT)
+
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            GeoUInt32Property *, 
                            0);
@@ -77,6 +83,7 @@ OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            GeoUInt32Property *, 
                            0);
 
+#endif
+
 OSG_END_NAMESPACE
 
-OSG_USING_NAMESPACE

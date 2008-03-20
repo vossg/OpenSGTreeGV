@@ -42,6 +42,8 @@
 
 #include "OSGConfig.h"
 
+#if !defined(OSG_EMBEDDED)
+
 #include "OSGWindow.h"
 #include "OSGGL.h"
 #include "OSGGLU.h"
@@ -936,3 +938,5 @@ bool OcclusionCullingTreeBuilder::releaseTestingState(void)
 
     return true;
 }
+
+#endif

@@ -140,27 +140,35 @@ void PolygonChunk::activate(DrawEnv *, UInt32)
 
 // smooth
 
+#if defined(GL_POLYGON_SMOOTH)
     if(_sfSmooth.getValue())
         glEnable(GL_POLYGON_SMOOTH);
+#endif
 
 // mode
 
+#if defined(GL_POLYGON_MODE)
     if(_sfFrontMode.getValue() != GL_FILL)
         glPolygonMode(GL_FRONT, _sfFrontMode.getValue());
 
     if(_sfBackMode.getValue() != GL_FILL)
         glPolygonMode(GL_BACK, _sfBackMode.getValue());
+#endif
 
 // offset
 
     if(_sfOffsetFactor.getValue() != 0.f || _sfOffsetBias.getValue() != 0.f)
         glPolygonOffset(_sfOffsetFactor.getValue(), _sfOffsetBias.getValue());
 
+#if defined(GL_POLYGON_OFFSET_POINT)
     if(_sfOffsetPoint.getValue())
         glEnable(GL_POLYGON_OFFSET_POINT);
+#endif
 
+#if defined(GL_POLYGON_OFFSET_LINE)
     if(_sfOffsetLine.getValue())
         glEnable(GL_POLYGON_OFFSET_LINE);
+#endif
 
     if(_sfOffsetFill.getValue())
         glEnable(GL_POLYGON_OFFSET_FILL);
@@ -208,6 +216,7 @@ void PolygonChunk::changeFrom(DrawEnv *, StateChunk *old_chunk, UInt32)
 
 // smooth
 
+#if defined(GL_POLYGON_SMOOTH)
     if(_sfSmooth.getValue() != old->_sfSmooth.getValue())
     {
         if(_sfSmooth.getValue())
@@ -219,14 +228,17 @@ void PolygonChunk::changeFrom(DrawEnv *, StateChunk *old_chunk, UInt32)
             glDisable(GL_POLYGON_SMOOTH);
         }
     }
+#endif
 
 // mode
 
+#if defined(GL_POLYGON_MODE)
     if(_sfFrontMode.getValue() !=  old->_sfFrontMode.getValue())
         glPolygonMode(GL_FRONT, _sfFrontMode.getValue());
 
     if(_sfBackMode.getValue() !=  old->_sfBackMode.getValue())
         glPolygonMode(GL_BACK, _sfBackMode.getValue());
+#endif
 
 // offset
 
@@ -236,6 +248,7 @@ void PolygonChunk::changeFrom(DrawEnv *, StateChunk *old_chunk, UInt32)
         glPolygonOffset(_sfOffsetFactor.getValue(), _sfOffsetBias.getValue());
     }
 
+#if defined(GL_POLYGON_OFFSET_POINT)
     if(_sfOffsetPoint.getValue() != old->_sfOffsetPoint.getValue())
     {
         if(_sfOffsetPoint.getValue())
@@ -247,7 +260,9 @@ void PolygonChunk::changeFrom(DrawEnv *, StateChunk *old_chunk, UInt32)
             glDisable(GL_POLYGON_OFFSET_POINT);
         }
     }
+#endif
 
+#if defined(GL_POLYGON_OFFSET_LINE)
     if(_sfOffsetLine.getValue() != old->_sfOffsetLine.getValue())
     {
         if(_sfOffsetLine.getValue())
@@ -259,6 +274,7 @@ void PolygonChunk::changeFrom(DrawEnv *, StateChunk *old_chunk, UInt32)
             glDisable(GL_POLYGON_OFFSET_LINE);
         }
     }
+#endif
 
     if(_sfOffsetFill.getValue() != old->_sfOffsetFill.getValue())
     {
@@ -302,24 +318,32 @@ void PolygonChunk::deactivate(DrawEnv *, UInt32)
 
 // smooth
 
+#if defined(GL_POLYGON_SMOOTH)
     if(_sfSmooth.getValue())
         glDisable(GL_POLYGON_SMOOTH);
+#endif
 
 // mode
 
+#if defined(GL_POLYGON_MODE)
     if(_sfFrontMode.getValue() != GL_FILL)
         glPolygonMode(GL_FRONT, GL_FILL);
 
     if(_sfBackMode.getValue() != GL_FILL)
         glPolygonMode(GL_BACK, GL_FILL);
+#endif
 
 // offset
 
+#if defined(GL_POLYGON_OFFSET_POINT)
     if(_sfOffsetPoint.getValue())
         glDisable(GL_POLYGON_OFFSET_POINT);
+#endif
 
+#if defined(GL_POLYGON_OFFSET_LINE)
     if(_sfOffsetLine.getValue())
         glDisable(GL_POLYGON_OFFSET_LINE);
+#endif
 
     if(_sfOffsetFill.getValue())
         glDisable(GL_POLYGON_OFFSET_FILL);

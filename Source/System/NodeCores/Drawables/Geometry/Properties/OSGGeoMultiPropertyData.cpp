@@ -46,6 +46,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGLEXT.h"
 #include "OSGWindow.h"
 #include "OSGGeoMultiPropertyData.h"
@@ -310,3 +312,4 @@ void GeoMultiPropertyData::dump(      UInt32    ,
     SLOG << "Dump GeoMultiPropertyData NI" << std::endl;
 }
 
+#endif

@@ -629,11 +629,14 @@ OSG_MAKE_1D_TO_4D_NORM_PROP(Vec, ub,         255, GL_UNSIGNED_BYTE,  GLubyte,  V
 OSG_MAKE_1D_TO_4D_NORM_PROP(Pnt, ub,         255, GL_UNSIGNED_BYTE,  GLubyte,  VectorTypePoint,  UsageObjectSpace);
 OSG_MAKE_1D_TO_4D_NORM_PROP(Vec,  b,         127, GL_BYTE,           GLbyte,   VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_NORM_PROP(Pnt,  b,         127, GL_BYTE,           GLbyte,   VectorTypePoint,  UsageObjectSpace);
+#if defined(GL_UNSIGNED_SHORT)
 OSG_MAKE_1D_TO_4D_NORM_PROP(Vec, us,       65535, GL_UNSIGNED_SHORT, GLushort, VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_NORM_PROP(Pnt, us,       65535, GL_UNSIGNED_SHORT, GLushort, VectorTypePoint,  UsageObjectSpace);
+#endif
+#if defined(GL_SHORT)
 OSG_MAKE_1D_TO_4D_NORM_PROP(Vec,  s,       32767, GL_SHORT,          GLshort,  VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_NORM_PROP(Pnt,  s,       32767, GL_SHORT,          GLshort,  VectorTypePoint,  UsageObjectSpace);
-
+#endif
 // Does anybody need those? *DR*
 // OSG_MAKE_1D_TO_4D_NORM_PROP(Vec, ui, 4294967295U, GL_UNSIGNED_INT,   GLuint,   VectorTypeVector, UsageUnspecified);
 // OSG_MAKE_1D_TO_4D_NORM_PROP(Pnt, ui, 4294967295U, GL_UNSIGNED_INT,   GLuint,   VectorTypePoint,  UsageObjectSpace);
@@ -644,10 +647,14 @@ OSG_MAKE_1D_TO_4D_PROP(Vec, ub, GL_UNSIGNED_BYTE,  GLubyte,  VectorTypeVector, U
 OSG_MAKE_1D_TO_4D_PROP(Pnt, ub, GL_UNSIGNED_BYTE,  GLubyte,  VectorTypePoint,  UsageObjectSpace);
 OSG_MAKE_1D_TO_4D_PROP(Vec,  b, GL_BYTE,           GLbyte,   VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_PROP(Pnt,  b, GL_BYTE,           GLbyte,   VectorTypePoint,  UsageObjectSpace);
+#if defined(GL_UNSIGNED_SHORT)
 OSG_MAKE_1D_TO_4D_PROP(Vec, us, GL_UNSIGNED_SHORT, GLushort, VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_PROP(Pnt, us, GL_UNSIGNED_SHORT, GLushort, VectorTypePoint,  UsageObjectSpace);
+#endif
+#if defined(GL_SHORT)
 OSG_MAKE_1D_TO_4D_PROP(Vec,  s, GL_SHORT,          GLshort,  VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_PROP(Pnt,  s, GL_SHORT,          GLshort,  VectorTypePoint,  UsageObjectSpace);
+#endif
 
 // Does anybody need those? *DR*
 // OSG_MAKE_1D_TO_4D_PROP(Vec, ui, GL_UNSIGNED_INT,   GLuint,   VectorTypeVector, UsageUnspecified);
@@ -655,12 +662,12 @@ OSG_MAKE_1D_TO_4D_PROP(Pnt,  s, GL_SHORT,          GLshort,  VectorTypePoint,  U
 // OSG_MAKE_1D_TO_4D_PROP(Vec,  i, GL_INT,            GLint,    VectorTypeVector, UsageUnspecified);
 // OSG_MAKE_1D_TO_4D_PROP(Pnt,  i, GL_INT,            GLint,    VectorTypePoint,  UsageObjectSpace);
 
-#ifndef OSG_EMBEDDED
+#if !defined(OSG_EMBEDDED) || defined(OSG_FLOAT_PROFILE)
 OSG_MAKE_1D_TO_4D_PROP(Vec, f, GL_FLOAT, GLfloat, VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_PROP(Pnt, f, GL_FLOAT, GLfloat, VectorTypePoint,  UsageObjectSpace);
 #endif
 
-#ifdef OSG_EMBEDDED
+#if defined(OSG_EMBEDDED) && defined(OSG_FIXED_PROFILE)
 OSG_MAKE_1D_TO_4D_PROP(Vec, fx, GL_FIXED, GLfixed, VectorTypeVector, UsageUnspecified);
 OSG_MAKE_1D_TO_4D_PROP(Pnt, fx, GL_FIXED, GLfixed, VectorTypePoint,  UsageObjectSpace);
 #endif
@@ -675,7 +682,7 @@ OSG_MAKE_COLOR_PROP(ub, 255, GL_UNSIGNED_BYTE, GLubyte);
 OSG_MAKE_PROP(Color3f, GL_FLOAT,  GLfloat, VectorTypeColor, UsageColorSpace);
 OSG_MAKE_PROP(Color4f, GL_FLOAT,  GLfloat, VectorTypeColor, UsageColorSpace);
 
-#ifdef OSG_EMBEDDED
+#if defined(OSG_EMBEDDED)  && defined(OSG_FIXED_PROFILE)
 OSG_MAKE_PROP(Color3fx, GL_FIXED,  GLfixed, VectorTypeColor, UsageColorSpace);
 OSG_MAKE_PROP(Color4fx, GL_FIXED,  GLfixed, VectorTypeColor, UsageColorSpace);
 #endif
@@ -697,11 +704,13 @@ typedef GeoVectorPropertyRecPtr GeoColorsPtr;
 
 // Positions
 
+#if defined(GL_SHORT)
 typedef GeoPnt2sProperty    GeoPositions2s;
 typedef GeoPnt3sProperty    GeoPositions3s;
 typedef GeoPnt4sProperty    GeoPositions4s;
+#endif
 
-#ifndef OSG_EMBEDDED
+#if !defined(OSG_EMBEDDED) || defined(OSG_FLOAT_PROFILE)
 typedef GeoPnt2fProperty           GeoPositions2f;
 typedef GeoPnt2fPropertyRecPtr     GeoPositions2fPtr;
 typedef GeoPnt3fProperty           GeoPositions3f;
@@ -709,6 +718,7 @@ typedef GeoPnt3fPropertyRecPtr     GeoPositions3fPtr;
 typedef GeoPnt4fProperty           GeoPositions4f;
 typedef GeoPnt4fPropertyRecPtr     GeoPositions4fPtr;
 
+#if !defined(OSG_EMBEDDED)
 typedef GeoPnt2dProperty           GeoPositions2d;
 typedef GeoPnt2dPropertyRecPtr     GeoPositions2dPtr;
 typedef GeoPnt3dProperty           GeoPositions3d;
@@ -716,14 +726,17 @@ typedef GeoPnt3dPropertyRecPtr     GeoPositions3dPtr;
 typedef GeoPnt4dProperty           GeoPositions4d;
 typedef GeoPnt4dPropertyRecPtr     GeoPositions4dPtr;
 #endif
+#endif
 
 // Normals
 
-#ifndef OSG_EMBEDDED
+#if !defined(OSG_EMBEDDED) || defined(OSG_FLOAT_PROFILE)
 typedef GeoVec3fProperty           GeoNormals3f;
 typedef GeoVec3fPropertyRecPtr     GeoNormals3fPtr;
 #endif
+#if defined(GL_SHORT)
 typedef GeoVec3sProperty    GeoNormals3s;
+#endif
 typedef GeoVec3bProperty    GeoNormals3b;
 
 // Colors

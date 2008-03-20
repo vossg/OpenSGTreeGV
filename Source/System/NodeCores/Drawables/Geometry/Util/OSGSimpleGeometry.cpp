@@ -46,12 +46,16 @@
 #include <cstdio>
 
 #include "OSGConfig.h"
+
+#ifndef OSG_EMBEDDED
+
 #include "OSGLog.h"
 #include "OSGQuaternion.h"
 #include "OSGMaterial.h"
 #include "OSGSimpleMaterial.h"
 #include "OSGLineChunk.h"
 #include "OSGGeoProperties.h"
+
 #include "OSGSimpleGeometry.h"  // for DefaultMaterials
 #include "OSGTypedGeoIntegralProperty.h"
 #include "OSGTypedGeoVectorProperty.h"
@@ -2406,3 +2410,5 @@ GeometryTransitPtr makeCoordAxisGeo(Real32 length,
     return geo;
 }
 OSG_END_NAMESPACE
+
+#endif

@@ -44,6 +44,9 @@
 #include <cstdio>
 
 #include "OSGConfig.h"
+
+#ifndef OSG_EMBEDDED
+
 #include "OSGGeometry.h"
 #include "OSGPrimitiveIterator.h"
 
@@ -422,3 +425,5 @@ bool PrimitiveIterator::operator !=(const PrimitiveIterator &other) const
 {
     return !(*this == other);
 }
+
+#endif

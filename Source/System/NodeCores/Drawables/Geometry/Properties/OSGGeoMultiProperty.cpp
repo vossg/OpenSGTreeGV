@@ -45,6 +45,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGLEXT.h"
 #include "OSGWindow.h"
 #include "OSGGeoMultiProperty.h"
@@ -542,3 +544,5 @@ for (UInt16 i = 0; i < dim; ++i)                                \
 #undef setValNormCase
 #undef setValCase
 }
+
+#endif

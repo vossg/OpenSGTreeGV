@@ -48,6 +48,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGPrimeMaterial.h"
 #include "OSGGeoBuilder.h"
 
@@ -304,3 +306,5 @@ Geometry *GeoBuilder::getGeometry(void)
 {
     return _geo;
 }
+
+#endif

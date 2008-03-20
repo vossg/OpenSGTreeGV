@@ -45,6 +45,8 @@
 
 #include "OSGConfig.h"
 
+#ifndef OSG_EMBEDDED
+
 #include "OSGGeometry.h"
 #include "OSGPrimitiveIterator.h"
 #include "OSGEdgeIterator.h"
@@ -339,3 +341,6 @@ bool EdgeIterator::operator !=(const EdgeIterator &other) const
 {
     return !(*this == other);
 }
+
+#endif
+
