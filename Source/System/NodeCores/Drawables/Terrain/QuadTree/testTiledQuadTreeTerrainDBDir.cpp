@@ -70,8 +70,8 @@ OSG_USING_NAMESPACE
 
 SimpleSceneManager *mgr;
 
-NodePtr scene;
-TiledQuadTreeTerrainPtr terrain;
+NodeUnrecPtr scene;
+TiledQuadTreeTerrainUnrecPtr terrain;
 
 Real32 speed = 1.;
 
@@ -133,7 +133,14 @@ key(unsigned char key, int x, int y)
 {
     switch(key)
     {
-        case 27:    exit(1);
+        case 27:    
+            delete mgr;
+
+            scene   = NullFC;
+            terrain = NullFC;
+
+            osgExit();
+            exit(1);
         case 'a':   mgr->setHighlight( scene );
             break;
         case 's':   mgr->setHighlight( NullFC );
@@ -186,15 +193,15 @@ key(unsigned char key, int x, int y)
 
 MaterialPtr makeTexture (const char* texname)
 {
-   ImagePtr image = ImageFileHandler::the()->read(texname);
+   ImageUnrecPtr image = ImageFileHandler::the()->read(texname);
 
    SLOG << "Create ChunkMaterial" << std::endl;
 
-   ChunkMaterialPtr   texMatPtr      = ChunkMaterial::create();
-   TextureObjChunkPtr texObjChunkPtr = TextureObjChunk::create();
-   TextureEnvChunkPtr texEnvChunkPtr = TextureEnvChunk::create();
-   BlendChunkPtr      blendChunkPtr  = BlendChunk::create();
-   MaterialChunkPtr   phongChunk     = MaterialChunk::create();
+   ChunkMaterialUnrecPtr   texMatPtr      = ChunkMaterial::create();
+   TextureObjChunkUnrecPtr texObjChunkPtr = TextureObjChunk::create();
+   TextureEnvChunkUnrecPtr texEnvChunkPtr = TextureEnvChunk::create();
+   BlendChunkUnrecPtr      blendChunkPtr  = BlendChunk::create();
+   MaterialChunkUnrecPtr   phongChunk     = MaterialChunk::create();
 
    phongChunk->setDiffuse (Color4f(1.0f, 1.0f, 1.0f, 1.0f));
    phongChunk->setAmbient (Color4f(0.1f, 0.1f, 0.1f, 1.0f));
@@ -234,7 +241,7 @@ void loadHeightDir(const Char8 *szDir,
 
     Char8 szBuff[64];
 
-    ImagePtr pH;
+    ImageUnrecPtr pH;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -281,7 +288,7 @@ void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrainPtr terrain)
 
     Char8 szBuff[64];
 
-    ImagePtr pH;
+    ImageUnrecPtr pH;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -340,7 +347,7 @@ void loadTextureDir(const Char8 *szDir,
 
     Char8 szBuff[64];
 
-    MaterialPtr pM;
+    MaterialUnrecPtr pM;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -387,7 +394,7 @@ void loadTextureDir(const Char8 *szDir, TiledQuadTreeTerrainPtr terrain)
 
     Char8 szBuff[64];
 
-    MaterialPtr pM;
+    MaterialUnrecPtr pM;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -457,7 +464,7 @@ int main (int argc, char **argv)
     glutIdleFunc(idle);
 
     // the connection between GLUT and OpenSG
-    GLUTWindowPtr gwin= GLUTWindow::create();
+    GLUTWindowUnrecPtr gwin= GLUTWindow::create();
     gwin->setGlutId(winid);
     gwin->init();
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
