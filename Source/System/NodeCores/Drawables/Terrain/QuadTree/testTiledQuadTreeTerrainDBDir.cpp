@@ -136,14 +136,14 @@ key(unsigned char key, int x, int y)
         case 27:    
             delete mgr;
 
-            scene   = NullFC;
-            terrain = NullFC;
+            scene   = NULL;
+            terrain = NULL;
 
             osgExit();
             exit(1);
         case 'a':   mgr->setHighlight( scene );
             break;
-        case 's':   mgr->setHighlight( NullFC );
+        case 's':   mgr->setHighlight( NULL );
             break;
         case ' ': {
             GLint current = GL_LINE;
@@ -191,7 +191,7 @@ key(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
-MaterialPtr makeTexture (const char* texname)
+Material *makeTexture (const char* texname)
 {
    ImageUnrecPtr image = ImageFileHandler::the()->read(texname);
 
@@ -234,7 +234,7 @@ MaterialPtr makeTexture (const char* texname)
 void loadHeightDir(const Char8 *szDir, 
                    UInt32 xMin, UInt32 xMax,
                    UInt32 yMin, UInt32 yMax,
-                   TiledQuadTreeTerrainPtr terrain)
+                   TiledQuadTreeTerrain *terrain)
 {
     std::string fname;
     std::string baseFName = szDir;
@@ -276,7 +276,7 @@ void loadHeightDir(const Char8 *szDir,
     }
 }
 
-void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrainPtr terrain)
+void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
 {
     UInt32 x;
     UInt32 y = 0;
@@ -340,7 +340,7 @@ void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrainPtr terrain)
 void loadTextureDir(const Char8 *szDir, 
                     UInt32 xMin, UInt32 xMax,
                     UInt32 yMin, UInt32 yMax,
-                    TiledQuadTreeTerrainPtr terrain)
+                    TiledQuadTreeTerrain *terrain)
 {
     std::string fname;
     std::string baseFName = szDir;
@@ -382,7 +382,7 @@ void loadTextureDir(const Char8 *szDir,
     }
 }
 
-void loadTextureDir(const Char8 *szDir, TiledQuadTreeTerrainPtr terrain)
+void loadTextureDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
 {
     UInt32 x;
     UInt32 y = 0;

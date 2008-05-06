@@ -243,12 +243,12 @@ int main(int argc, char **argv)
         mat    = makeTexture(argv[2]);
     }
     
-    OSG::GeoReferenceAttachmentPtr pGeoRef = 
-        dynamic_cast<OSG::GeoReferenceAttachmentPtr>(
+    OSG::GeoReferenceAttachment *pGeoRef = 
+        dynamic_cast<OSG::GeoReferenceAttachment *>(
             height->findAttachment(
                 OSG::GeoReferenceAttachment::getClassGroupId()));
 
-    if(pGeoRef != NullFC)
+    if(pGeoRef != NULL)
     {
         fprintf(stderr, "Got GeoRef %p\n", pGeoRef);
 
