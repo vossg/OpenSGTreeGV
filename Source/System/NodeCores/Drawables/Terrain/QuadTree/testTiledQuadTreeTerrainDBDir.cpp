@@ -604,9 +604,9 @@ int main (int argc, char **argv)
     mgr->setRoot( scene );
     mgr->getRenderAction()->setFrustumCulling(false);
 
-    WalkNavigator *walker=mgr->getNavigator()->getWalkNavigator();
-    walker->setGroundDistance(1);
-    walker->setPersonDimensions(3,1,1);
+    WalkEngine& walker=mgr->getNavigator()->getWalkEngine();
+    walker.setGroundDistance(1);
+    walker.setPersonDimensions(3,1,1);
 
     mgr->showAll();
 
