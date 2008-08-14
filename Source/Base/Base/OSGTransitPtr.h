@@ -141,6 +141,12 @@ class TransitPtr
     }
 #endif
 
+    inline
+    Object *ptr(void) const
+    {
+        return _pObj;
+    }
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
