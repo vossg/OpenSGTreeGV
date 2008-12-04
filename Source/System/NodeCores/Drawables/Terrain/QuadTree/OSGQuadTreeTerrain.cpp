@@ -193,25 +193,27 @@ Real32 QuadTreeTerrain::getHeightDataScaled (UInt32 i) const
 
        case Image::OSG_UINT8_IMAGEDATA:
            return 
-               ((UInt8*) getHeightData()->getData())[i];
+               (reinterpret_cast<const UInt8*>(getHeightData()->getData()))[i];
 
        case Image::OSG_UINT16_IMAGEDATA:
            return 
-               ((UInt16*)getHeightData()->getData())[i];
+               (reinterpret_cast<const UInt16*>(getHeightData()->getData()))[i];
 
        case Image::OSG_INT16_IMAGEDATA:
-         return 
-               ((Int16*)getHeightData()->getData())[i];
+           return 
+               (reinterpret_cast<const Int16*>(getHeightData()->getData()))[i];
 
        case Image::OSG_UINT32_IMAGEDATA:
            return 
-               ((UInt32*)getHeightData()->getData())[i];
+               (reinterpret_cast<const UInt32*>(getHeightData()->getData()))[i];
 
        case Image::OSG_FLOAT16_IMAGEDATA:
-           return ((Real16*)getHeightData()->getData())[i];
+           return 
+               (reinterpret_cast<const Real16*>(getHeightData()->getData()))[i];
 
        case Image::OSG_FLOAT32_IMAGEDATA:
-           return ((Real32*)getHeightData()->getData())[i];
+           return 
+               (reinterpret_cast<const Real32*>(getHeightData()->getData()))[i];
    };
 #endif
 }
