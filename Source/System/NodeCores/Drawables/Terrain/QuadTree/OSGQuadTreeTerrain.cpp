@@ -189,6 +189,7 @@ Real32 QuadTreeTerrain::getHeightDataScaled (UInt32 i) const
        default:           
        case Image::OSG_INVALID_IMAGEDATATYPE:
            OSG_ASSERT(false);
+           return 0.f;
            break;
 
        case Image::OSG_UINT8_IMAGEDATA:
