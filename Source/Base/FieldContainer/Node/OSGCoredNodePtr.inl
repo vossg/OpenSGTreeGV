@@ -233,7 +233,7 @@ template<class CoreT>
 inline typename CoredNodeRefPtr<CoreT>::Self &
     CoredNodeRefPtr<CoreT>::operator =(CoreTransitPtr pCore)
 {
-    if(_pCore != pCore)
+    if(pCore != _pCore)
         _pCore = pCore;
 
     updateNode();
@@ -468,7 +468,7 @@ template<class CoreT>
 inline typename CoredNodeMTRefPtr<CoreT>::Self &
     CoredNodeMTRefPtr<CoreT>::operator =(CoreTransitPtr pCore)
 {
-    if(_pCore != pCore)
+    if(pCore != _pCore)
         _pCore = pCore;
 
     updateNode();
