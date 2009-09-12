@@ -1,8 +1,9 @@
 
-import os
+import os, os.path
 import SCons.Util
 import SCons
 
+pj = os.path.join
 
 compilers = ['spu-gcc']
 
@@ -67,6 +68,13 @@ def generate(env):
     env['SHSPUCC']  = 'spu-gcc'
 
     env['SPUSUFFIX']  = '.cspu'
+
+    cxx_path = env.WhereIs(compilers[0])
+
+    spu_base = os.path.dirname(os.path.dirname(os.path.dirname(cxx_path)))
+    spu_inc  = "-I" + pj(spu_base, "sysroot/opt/cell/sdk/usr/spu/include")
+
+    env.Append(STSPUFLAGS=[spu_inc])
 
     spus = SCons.Scanner.ClassicCPP("SPUScanner",
                                    ".cspu",

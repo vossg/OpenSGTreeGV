@@ -37,9 +37,11 @@ import SCons.Util
 
 import traceback
 import SCons.Tool.cc as cc
-import os
+import os, os.path
 import re
 import sys
+
+pj = os.path.join
    
 cplusplus = __import__('SCons.Tool.c++', globals(), locals(), ['*'])
     
@@ -55,6 +57,14 @@ def generate(env):
 
     env['SHCXXFLAGS'] = SCons.Util.CLVar('$CXXFLAGS -fPIC')
     
+    cxx_path = env.WhereIs(compilers[0])
+
+    ppu_base = os.path.dirname(os.path.dirname(os.path.dirname(cxx_path)))
+    ppu_inc  = "-I" + pj(ppu_base, "sysroot/opt/cell/sdk/usr/include")
+
+#    env.Append(SHCXXFLAGS=[ppu_inc])
+    env.Append(CXXFLAGS=[ppu_inc])
+
 
     # determine compiler version
     if env['CXX']:
