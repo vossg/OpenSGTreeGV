@@ -65,21 +65,18 @@
 #include <OSGTextureEnvChunk.h>
 #include <OSGFileSystem.h>
 
-// Activate the OpenSG namespace
-OSG_USING_NAMESPACE
+OSG::SimpleSceneManager *mgr;
 
-SimpleSceneManager *mgr;
+OSG::NodeUnrecPtr scene;
+OSG::TiledQuadTreeTerrainUnrecPtr terrain;
 
-NodeUnrecPtr scene;
-TiledQuadTreeTerrainUnrecPtr terrain;
+OSG::Real32 speed = 1.;
 
-Real32 speed = 1.;
-
-static UInt32 frame = 0;
+static OSG::UInt32 frame = 0;
 // Standard GLUT callback functions
 void display( void )
 {
-    commitChanges();
+    OSG::commitChanges();
 
     mgr->idle();
     mgr->redraw();
@@ -139,7 +136,7 @@ key(unsigned char key, int x, int y)
             scene   = NULL;
             terrain = NULL;
 
-            osgExit();
+            OSG::osgExit();
             exit(1);
         case 'a':   mgr->setHighlight( scene );
             break;
@@ -157,11 +154,11 @@ key(unsigned char key, int x, int y)
         }
         case 'l':   mgr->useOpenSGLogo();
             break;
-        case 'f':   mgr->setNavigationMode(Navigator::FLY);
+        case 'f':   mgr->setNavigationMode(OSG::Navigator::FLY);
             break;
-        case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
+        case 't':   mgr->setNavigationMode(OSG::Navigator::TRACKBALL);
             break;
-        case 'w':   mgr->setNavigationMode(Navigator::WALK);
+        case 'w':   mgr->setNavigationMode(OSG::Navigator::WALK);
             break;                
         case 'u': {
             terrain->setUpdate(!terrain->getUpdate());
@@ -191,21 +188,21 @@ key(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
-Material *makeTexture (const char* texname)
+OSG::Material *makeTexture (const char* texname)
 {
-   ImageUnrecPtr image = ImageFileHandler::the()->read(texname);
+   OSG::ImageUnrecPtr image = OSG::ImageFileHandler::the()->read(texname);
 
    SLOG << "Create ChunkMaterial" << std::endl;
 
-   ChunkMaterialUnrecPtr   texMatPtr      = ChunkMaterial::create();
-   TextureObjChunkUnrecPtr texObjChunkPtr = TextureObjChunk::create();
-   TextureEnvChunkUnrecPtr texEnvChunkPtr = TextureEnvChunk::create();
-   BlendChunkUnrecPtr      blendChunkPtr  = BlendChunk::create();
-   MaterialChunkUnrecPtr   phongChunk     = MaterialChunk::create();
+   OSG::ChunkMaterialUnrecPtr   texMatPtr      = OSG::ChunkMaterial::create();
+   OSG::TextureObjChunkUnrecPtr texObjChunkPtr = OSG::TextureObjChunk::create();
+   OSG::TextureEnvChunkUnrecPtr texEnvChunkPtr = OSG::TextureEnvChunk::create();
+   OSG::BlendChunkUnrecPtr      blendChunkPtr  = OSG::BlendChunk::create();
+   OSG::MaterialChunkUnrecPtr   phongChunk     = OSG::MaterialChunk::create();
 
-   phongChunk->setDiffuse (Color4f(1.0f, 1.0f, 1.0f, 1.0f));
-   phongChunk->setAmbient (Color4f(0.1f, 0.1f, 0.1f, 1.0f));
-   phongChunk->setSpecular(Color4f(0.2f, 0.2f, 0.2f, 1.0f));
+   phongChunk->setDiffuse (OSG::Color4f(1.0f, 1.0f, 1.0f, 1.0f));
+   phongChunk->setAmbient (OSG::Color4f(0.1f, 0.1f, 0.1f, 1.0f));
+   phongChunk->setSpecular(OSG::Color4f(0.2f, 0.2f, 0.2f, 1.0f));
    phongChunk->setShininess(6);
 
    texObjChunkPtr->setImage     ( image);
@@ -231,17 +228,17 @@ Material *makeTexture (const char* texname)
    return texMatPtr;
 }
 
-void loadHeightDir(const Char8 *szDir, 
-                   UInt32 xMin, UInt32 xMax,
-                   UInt32 yMin, UInt32 yMax,
-                   TiledQuadTreeTerrain *terrain)
+void loadHeightDir(const OSG::Char8 *szDir, 
+                   OSG::UInt32 xMin, OSG::UInt32 xMax,
+                   OSG::UInt32 yMin, OSG::UInt32 yMax,
+                   OSG::TiledQuadTreeTerrain *terrain)
 {
     std::string fname;
     std::string baseFName = szDir;
 
-    Char8 szBuff[64];
+    OSG::Char8 szBuff[64];
 
-    ImageUnrecPtr pH;
+    OSG::ImageUnrecPtr pH;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -251,9 +248,9 @@ void loadHeightDir(const Char8 *szDir,
         baseFName += '/';
     }
 
-    for(UInt32 y = yMin; y <= yMax; ++y)
+    for(OSG::UInt32 y = yMin; y <= yMax; ++y)
     {
-        for(UInt32 x = xMin; x <= xMax; ++x)
+        for(OSG::UInt32 x = xMin; x <= xMax; ++x)
         {
             fname = baseFName;
 
@@ -261,7 +258,8 @@ void loadHeightDir(const Char8 *szDir,
 
             fname += szBuff;
 
-            if(File::tstAttr(fname.c_str(), AccessFlags::IsReadable) == false)
+            if(OSG::File::tstAttr(fname.c_str(), 
+                                  OSG::AccessFlags::IsReadable) == false)
             {
                 fprintf(stderr, "%s: [FAILED]\n", fname.c_str());
                 OSG_ASSERT(false);
@@ -269,26 +267,26 @@ void loadHeightDir(const Char8 *szDir,
 
             fprintf(stderr, "%s: [OK]\n", fname.c_str());
 
-            pH = ImageFileHandler::the()->read(fname.c_str());
+            pH = OSG::ImageFileHandler::the()->read(fname.c_str());
 
             terrain->pushToHeightTiles(pH);
         }
     }
 }
 
-void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
+void loadHeightDir(const OSG::Char8 *szDir, OSG::TiledQuadTreeTerrain *terrain)
 {
-    UInt32 x;
-    UInt32 y = 0;
+    OSG::UInt32 x;
+    OSG::UInt32 y = 0;
 
-    UInt32 iXTry = 0;
+    OSG::UInt32 iXTry = 0;
 
     std::string fname;
     std::string baseFName = szDir;
 
-    Char8 szBuff[64];
+    OSG::Char8 szBuff[64];
 
-    ImageUnrecPtr pH;
+    OSG::ImageUnrecPtr pH;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -311,7 +309,8 @@ void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
 
             fname += szBuff;
 
-            if(File::tstAttr(fname.c_str(), AccessFlags::IsReadable) == false)
+            if(OSG::File::tstAttr(fname.c_str(), 
+                                  OSG::AccessFlags::IsReadable) == false)
             {
                 fprintf(stderr, "%s: [FAILED]\n", fname.c_str());
                 break;
@@ -319,7 +318,7 @@ void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
 
             fprintf(stderr, "%s: [OK]\n", fname.c_str());
 
-            pH = ImageFileHandler::the()->read(fname.c_str());
+            pH = OSG::ImageFileHandler::the()->read(fname.c_str());
 
             terrain->pushToHeightTiles(pH);
 
@@ -337,17 +336,17 @@ void loadHeightDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
     
 }
 
-void loadTextureDir(const Char8 *szDir, 
-                    UInt32 xMin, UInt32 xMax,
-                    UInt32 yMin, UInt32 yMax,
-                    TiledQuadTreeTerrain *terrain)
+void loadTextureDir(const OSG::Char8 *szDir, 
+                    OSG::UInt32 xMin, OSG::UInt32 xMax,
+                    OSG::UInt32 yMin, OSG::UInt32 yMax,
+                    OSG::TiledQuadTreeTerrain *terrain)
 {
     std::string fname;
     std::string baseFName = szDir;
 
-    Char8 szBuff[64];
+    OSG::Char8 szBuff[64];
 
-    MaterialUnrecPtr pM;
+    OSG::MaterialUnrecPtr pM;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -357,9 +356,9 @@ void loadTextureDir(const Char8 *szDir,
         baseFName += '/';
     }
 
-    for(UInt32 y = yMin; y <= yMax; ++y)
+    for(OSG::UInt32 y = yMin; y <= yMax; ++y)
     {
-        for(UInt32 x = xMin; x <= xMax; ++x)
+        for(OSG::UInt32 x = xMin; x <= xMax; ++x)
         {
             fname = baseFName;
 
@@ -367,7 +366,8 @@ void loadTextureDir(const Char8 *szDir,
 
             fname += szBuff;
 
-            if(File::tstAttr(fname.c_str(), AccessFlags::IsReadable) == false)
+            if(OSG::File::tstAttr(fname.c_str(), 
+                                  OSG::AccessFlags::IsReadable) == false)
             {
                 fprintf(stderr, "%s: [FAILED]\n", fname.c_str());
                 OSG_ASSERT(false);
@@ -382,19 +382,19 @@ void loadTextureDir(const Char8 *szDir,
     }
 }
 
-void loadTextureDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
+void loadTextureDir(const OSG::Char8 *szDir, OSG::TiledQuadTreeTerrain *terrain)
 {
-    UInt32 x;
-    UInt32 y = 0;
+    OSG::UInt32 x;
+    OSG::UInt32 y = 0;
 
-    UInt32 iXTry = 0;
+    OSG::UInt32 iXTry = 0;
 
     std::string fname;
     std::string baseFName = szDir;
 
-    Char8 szBuff[64];
+    OSG::Char8 szBuff[64];
 
-    MaterialUnrecPtr pM;
+    OSG::MaterialUnrecPtr pM;
 
     if(baseFName.size() < 1)
         OSG_ASSERT(false);
@@ -417,7 +417,8 @@ void loadTextureDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
 
             fname += szBuff;
 
-            if(File::tstAttr(fname.c_str(), AccessFlags::IsReadable) == false)
+            if(OSG::File::tstAttr(fname.c_str(), 
+                                  OSG::AccessFlags::IsReadable) == false)
             {
                 fprintf(stderr, "%s: [FAILED]\n", fname.c_str());
                 break;
@@ -448,9 +449,9 @@ void loadTextureDir(const Char8 *szDir, TiledQuadTreeTerrain *terrain)
 int main (int argc, char **argv)
 {
     // OSG init
-    osgInit(argc,argv);
+    OSG::osgInit(argc,argv);
     // VERY IMPORTANT: artifacts if not ignoring GL_EXT_compiled_vertex_array
-    Window::ignoreExtensions("GL_EXT_compiled_vertex_array");
+    OSG::Window::ignoreExtensions("GL_EXT_compiled_vertex_array");
 
     // GLUT init
     glutInit(&argc, argv);
@@ -464,37 +465,38 @@ int main (int argc, char **argv)
     glutIdleFunc(idle);
 
     // the connection between GLUT and OpenSG
-    GLUTWindowUnrecPtr gwin= GLUTWindow::create();
+    OSG::GLUTWindowUnrecPtr gwin= OSG::GLUTWindow::create();
     gwin->setGlutId(winid);
     gwin->init();
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // create the scene
-    terrain = TiledQuadTreeTerrain::create();
-    scene = Node::create();
+    terrain = OSG::TiledQuadTreeTerrain::create();
+    scene = OSG::Node::create();
 
     scene->setCore(terrain);
 
 
 #if 0
-    for (Int32 i=2; i>=0; --i) 
+    for (OSG::Int32 i=2; i>=0; --i) 
     {
-        for (UInt32 j=0; j<6; ++j) 
+        for (OSG::UInt32 j=0; j<6; ++j) 
         {
             char filename[255];
             sprintf(filename, "HeightMap_%03d_%03d.png", j+1, i+1);
             SINFO << "load " << filename << std::endl;
-            ImagePtr    height = ImageFileHandler::the()->read(filename);
+            OSG::ImagePtr    height = 
+                OSG::ImageFileHandler::the()->read(filename);
             terrain->pushToHeightTiles(height);
         }
     }
 #endif
 
-    UInt32 xMin = 0; UInt32 xMax = 11;
-    UInt32 yMin = 0; UInt32 yMax = 11;
+    OSG::UInt32 xMin = 0; OSG::UInt32 xMax = 11;
+    OSG::UInt32 yMin = 0; OSG::UInt32 yMax = 11;
     
-    UInt32 xRes = xMax - xMin + 1;
-    UInt32 yRes = yMax - yMin + 1;
+    OSG::UInt32 xRes = xMax - xMin + 1;
+    OSG::UInt32 yRes = yMax - yMin + 1;
 
     fprintf(stderr, "Foo\n");
 
@@ -598,13 +600,13 @@ int main (int argc, char **argv)
 
 
     // create the SimpleSceneManager helper
-    mgr = new SimpleSceneManager;
+    mgr = new OSG::SimpleSceneManager;
 
     mgr->setWindow( gwin );
     mgr->setRoot( scene );
     mgr->getRenderAction()->setFrustumCulling(false);
 
-    WalkEngine& walker=mgr->getNavigator()->getWalkEngine();
+    OSG::WalkEngine& walker=mgr->getNavigator()->getWalkEngine();
     walker.setGroundDistance(1);
     walker.setPersonDimensions(3,1,1);
 

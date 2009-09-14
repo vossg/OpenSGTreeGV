@@ -239,7 +239,7 @@ int main(int argc, char **argv)
         sprintf(buffer, "%s_TexMap.png", argv[1]);
         mat    = makeTexture(buffer);
 #endif
-        height = ImageFileHandler::the()->read(argv[1]);
+        height = OSG::ImageFileHandler::the()->read(argv[1]);
         mat    = makeTexture(argv[2]);
     }
     
@@ -282,7 +282,7 @@ int main(int argc, char **argv)
 
     scene->setCore(terrain);
        
-    commitChanges();
+    OSG::commitChanges();
 
     OSG::SceneFileHandler::the()->write(scene, "/tmp/ter.osg");
 
