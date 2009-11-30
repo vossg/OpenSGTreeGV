@@ -207,21 +207,22 @@ OSG::MaterialTransitPtr makeTexture (const char* texname)
 
    texObjChunkPtr->setImage     ( image);
    
-   texObjChunkPtr->setWrapS     ( GL_CLAMP );
-   texObjChunkPtr->setWrapT     ( GL_CLAMP );
-   texObjChunkPtr->setWrapR     ( GL_CLAMP );
+   texObjChunkPtr->setWrapS     ( GL_CLAMP_TO_EDGE );
+   texObjChunkPtr->setWrapT     ( GL_CLAMP_TO_EDGE );
+   texObjChunkPtr->setWrapR     ( GL_CLAMP_TO_EDGE );
    
    texObjChunkPtr->setMinFilter ( GL_LINEAR );
    texObjChunkPtr->setMagFilter ( GL_LINEAR );
    
-   texEnvChunkPtr->setEnvMode(GL_MODULATE);
+//   texEnvChunkPtr->setEnvMode(GL_MODULATE);
+   texEnvChunkPtr->setEnvMode(GL_REPLACE);
 
    blendChunkPtr->setSrcFactor  ( GL_SRC_ALPHA           );
    blendChunkPtr->setDestFactor ( GL_ONE_MINUS_SRC_ALPHA );
 
    texMatPtr->addChunk(texObjChunkPtr, 0);
    texMatPtr->addChunk(texEnvChunkPtr, 0);
-   texMatPtr->addChunk(phongChunk);
+//   texMatPtr->addChunk(phongChunk);
    //texMatPtr->addChunk(blendChunkPtr);
 
    return OSG::MaterialTransitPtr(texMatPtr);

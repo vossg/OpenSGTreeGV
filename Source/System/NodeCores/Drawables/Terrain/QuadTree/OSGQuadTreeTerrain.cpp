@@ -150,6 +150,7 @@ QuadTreeTerrain::~QuadTreeTerrain(void)
 
 Real32 QuadTreeTerrain::getHeightDataScaled (UInt32 i) const
 {
+#if 0
    switch(getHeightData()->getDataType()) 
    {
        default:
@@ -182,6 +183,37 @@ Real32 QuadTreeTerrain::getHeightDataScaled (UInt32 i) const
            return (reinterpret_cast<const Real32 *>(
                        getHeightData()->getData()))[i];
    };
+#else
+   switch(getHeightData()->getDataType()) 
+   {
+       default:           
+       case Image::OSG_INVALID_IMAGEDATATYPE:
+           OSG_ASSERT(false);
+           break;
+
+       case Image::OSG_UINT8_IMAGEDATA:
+           return 
+               ((UInt8*) getHeightData()->getData())[i];
+
+       case Image::OSG_UINT16_IMAGEDATA:
+           return 
+               ((UInt16*)getHeightData()->getData())[i];
+
+       case Image::OSG_INT16_IMAGEDATA:
+         return 
+               ((Int16*)getHeightData()->getData())[i];
+
+       case Image::OSG_UINT32_IMAGEDATA:
+           return 
+               ((UInt32*)getHeightData()->getData())[i];
+
+       case Image::OSG_FLOAT16_IMAGEDATA:
+           return ((Real16*)getHeightData()->getData())[i];
+
+       case Image::OSG_FLOAT32_IMAGEDATA:
+           return ((Real32*)getHeightData()->getData())[i];
+   };
+#endif
 }
 
 void QuadTreeTerrain::getVertex(UInt32 i, Pnt3f &point) const

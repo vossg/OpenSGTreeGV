@@ -173,7 +173,7 @@ OSG::MaterialTransitPtr makeTexture (const char* texname)
     phongChunk->setAmbient (OSG::Color4f(0.1f, 0.1f, 0.1f, 1.0f));
     phongChunk->setSpecular(OSG::Color4f(0.2f, 0.2f, 0.2f, 1.0f));
     phongChunk->setShininess(6);
-    
+    phongChunk->setLit(false);
     
     texChunkPtr->setImage     ( image);
       
@@ -184,7 +184,7 @@ OSG::MaterialTransitPtr makeTexture (const char* texname)
     texChunkPtr->setMinFilter ( GL_LINEAR );
     texChunkPtr->setMagFilter ( GL_LINEAR );
     
-    texEnvChunkPtr->setEnvMode(GL_MODULATE);
+    texEnvChunkPtr->setEnvMode(GL_REPLACE);
     
     blendChunkPtr->setSrcFactor  ( GL_SRC_ALPHA           );
     blendChunkPtr->setDestFactor ( GL_ONE_MINUS_SRC_ALPHA );
@@ -232,19 +232,47 @@ int main(int argc, char **argv)
     } 
     else 
     {
+#if 0
         char buffer[200];
         sprintf(buffer, "%s_HeightMap.png", argv[1]);
         height = OSG::ImageFileHandler::the()->read(buffer);
         sprintf(buffer, "%s_TexMap.png", argv[1]);
         mat    = makeTexture(buffer);
+#endif
+        height = ImageFileHandler::the()->read(argv[1]);
+        mat    = makeTexture(argv[2]);
     }
     
+    OSG::GeoReferenceAttachmentPtr pGeoRef = 
+        dynamic_cast<OSG::GeoReferenceAttachmentPtr>(
+            height->findAttachment(
+                OSG::GeoReferenceAttachment::getClassGroupId()));
+
+    if(pGeoRef != NullFC)
+    {
+        fprintf(stderr, "Got GeoRef %p\n", pGeoRef);
+
+        fprintf(stderr, "%f %f -> %f %f\n",
+                pGeoRef->getOrigin()[0],
+                pGeoRef->getOrigin()[1],
+                pGeoRef->getOrigin()[0] + 
+                    pGeoRef->getPixelSize()[0] * height->getWidth(),
+                pGeoRef->getOrigin()[1] + 
+                    pGeoRef->getPixelSize()[1] * height->getHeight());
+
+        fprintf(stderr, "%d : %f %f\n",
+                pGeoRef->getDatum(),
+                pGeoRef->getEllipsoidAxis()[0],
+                pGeoRef->getEllipsoidAxis()[1]);
+
+    }
+
     OSG::QuadTreeTerrainUnrecPtr terrain = OSG::QuadTreeTerrain::create();
 
     terrain->setHeightData(height);
     terrain->setMaterial(mat);
-    terrain->setVertexSpacing(30.0f/256.0f);
-    terrain->setHeightScale  (5.0f);
+    terrain->setVertexSpacing(90);
+    terrain->setHeightScale  (1.f);
     terrain->setGeoMorphing(true);
     terrain->setDetail (25.0f);
 //    terrain->setPerPixelLighting (true);
@@ -254,6 +282,10 @@ int main(int argc, char **argv)
 
     scene->setCore(terrain);
        
+    commitChanges();
+
+    OSG::SceneFileHandler::the()->write(scene, "/tmp/ter.osg");
+
     // create the SimpleSceneManager helper
     mgr = new OSG::SimpleSceneManager;
 
